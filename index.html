@@ -1,0 +1,266 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots </title>
+  <link href="./mobilesed/style.css" rel="stylesheet">
+  <script type="text/javascript" src="./mobilesed/jquery.mlens-1.0.min.js"></script>
+  <script type="text/javascript" src="./mobilesed/jquery.js"></script>
+  <style>
+    .divider {
+      border-right: 2px dashed #737373;
+      width: 2px;
+    }
+  </style>
+  <style>
+    .divider_horizontal {
+      border-top: 2px dashed #737373;
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+    }
+  </style>
+  
+</head>
+
+<body>
+  <div class="content">
+    <h1><strong>Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots</strong>
+    </h1>
+    <p id="authors">
+      <span>
+        <a href="https://martin-liao.github.io/">Youqi Liao<sup>1</sup></a>
+      </span>
+      <span>
+        <a href="https://scholar.google.com/citations?user=qB6B7lkAAAAJ&hl=zh-CN&oi=ao">Shuhao Kang<sup>2</sup></a>
+      </span>
+      <span>
+        <a href="https://jianping.xyz/">Jianping Li<sup>3,&dagger;</sup></a>
+      </span>
+      <span>
+        <a href="https://mruil.github.io/">Yang Liu<sup>4</sup></a>
+      </span>
+      <br>
+      <span>
+        <a href="https://yun-liu.github.io/">Yun Liu<sup>5</sup></a>
+      </span>
+      <span>
+        <a href="https://dongzhenwhu.github.io/index.html">Zhen Dong<sup>1</sup></a>
+      </span>
+      <span>
+        <a href="https://3s.whu.edu.cn/info/1025/1415.htm">Bisheng Yang<sup>1</sup></a>
+      </span>
+      <span>
+        <a href="https://xieyuanli-chen.com/">Xieyuanli Chen<sup>6</sup></a>
+      </span>
+      <br>
+      <span class="institution">
+        <a href="https://en.whu.edu.cn/"><sup>1</sup> Wuhan University</a> 
+        <a href="https://www.tum.de/"><sup>2</sup> Technical University of Munich</a> 
+        <a href="https://www.ntu.edu.sg/"><sup>3</sup> Nanyang Technological University</a> 
+        <a href="https://www.kcl.ac.uk/"><sup>4</sup> King's College London</a><br>
+        <a href="https://www.a-star.edu.sg/"><sup>5</sup> Agency for Science, Technology and Research (A*STAR)</a>
+        <a href="https://english.nudt.edu.cn/"><sup>6</sup> National University of Defense Technology</a></span>  
+        <!--<sup>*</sup>The first two authors contribute equally. &nbsp;&nbsp;--> 
+        <sup>&dagger;</sup>Corresponding author. &nbsp;&nbsp; 
+    </p>
+    <font size="+2">
+      <p style="text-align: center;">
+        <a href="https://arxiv.org/abs/2309.14660" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <!-- <a href="freereg/Appendix.pdf" target="_blank">[Supp.]</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
+        <a href="https://github.com/martin-liao/Mobile-Seed" target="_blank">[Code]</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="mobilesed/bibtex.txt" target="_blank">[BibTeX]</a>
+      </p>
+    </font>
+    
+    <h3>
+      <center>What can Mobile-Seed do?</center>
+    </h3>
+    <img src="./mobilesed/motivation_map.png" class="teaser-gif" style="width:100%;"><br>
+    <a style="text-align:center">
+      Mobile-Seed is able to <strong> simultaneously inference the boundary map and semantic map of a 2D RGB image in real-time.</strong>  (a) shows the motivation of our Mobile-Seed, which could provide strong constraints
+      for downstream tasks, e.g instance segmentation, semantic SLAM and sensors calibration. (b) and (c) show that the key idea of Mobile-Seed is to assemble semantic segmentation stream and boundary detection stream in a shared
+      framework and learn in a mutually reinforcing manner while maintaning real-time efficiency.
+  </a>
+  </div>
+    <!--
+    <div id="contentWrapper">
+      <button id="prevButton" onclick="prevPage()">&#8249;</button>
+      <div id="gif-display"></div>
+      <button id="nextButton" onclick="nextPage()">&#8250;</button>
+    </div>
+    <div id="navBar">
+      <div class="navDot" id="dot0" onclick="goToPage(0)"></div>
+      <div class="navDot" id="dot1" onclick="goToPage(1)"></div>
+    </div>
+  </div>
+  <script>
+    // pre-list all the image files under gif_cropped folder
+    var allFiles = ["sun3d-hotel_uc-scan3-0-10.gif",
+    "scene0477_01-16-19.gif",
+    "scene0025_01-2-3.gif",
+    "scene0335_02-0-4.gif",
+    "sun3d-hotel_umd-maryland_hotel3-24-28.gif",
+    "scene0642_02-6-7.gif",
+    "scene0025_01-20-24.gif",
+    "scene0223_00-11-12.gif",
+    "scene0694_00-0-4.gif",
+    "sun3d-mit_76_studyroom-76-1studyroom2-47-48.gif",
+    "sun3d-mit_76_studyroom-76-1studyroom2-29-31.gif",
+    "sun3d-mit_76_studyroom-76-1studyroom2-25-33.gif",
+    "sun3d-mit_76_studyroom-76-1studyroom2-61-62.gif",
+    "scene0265_02-17-28.gif","scene0146_02-8-12.gif",
+    "scene0309_00-2-3.gif",
+    "scene0334_02-0-1.gif",
+    "sun3d-hotel_uc-scan3-15-23.gif",
+    "scene0457_01-5-9.gif",
+    "sun3d-home_md-home_md_scan9_2012_sep_30-46-47.gif"];
+
+    var page = 0; // current page
+
+    function goToPage(p) {
+      page = p;
+      showPage();
+    }
+    // Create a copy of the allFiles array
+    var shuffledFiles = allFiles.slice();
+
+    // Fisher-Yates Shuffle
+    for (let i = shuffledFiles.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+
+      // swap elements i and j
+      [shuffledFiles[i], shuffledFiles[j]] = [shuffledFiles[j], shuffledFiles[i]];
+    }
+    function showPage() {
+      var selectedFiles = shuffledFiles.slice(page * 10, (page + 1) * 10);
+
+      // construct a html string to show these images
+      var htmlStr = '<h3><center>Patch warping based on FreeReg correspondences</center></h3> \
+      <p>Based on the estimated FreeReg correspondences, we warp local RGB patches to their estimated corresponding positions in the point cloud. \
+      Click left/right arrow or navigate dots to view more results. </p><table>';
+      for (var i = 0; i < selectedFiles.length; i += 2) {
+        htmlStr += '<tr>';
+        for (var j = 0; j < 2; j++) {
+          if (i + j < selectedFiles.length) {
+            var file = selectedFiles[i + j];
+            htmlStr += '<td><img class="summary-img" src="./gif_cropped/' + file + '" style="width:100%;"></td>';
+            if (j == 0 && i + j + 1 < selectedFiles.length) {
+              // add a divider (dash line)
+              htmlStr += '<td class="divider"></td>';
+            }
+          }
+        }
+        htmlStr += '</tr>';
+      }
+      htmlStr += '</table>';
+      // add these images to a div with id 'content'
+      document.getElementById('gif-display').innerHTML = htmlStr;
+
+      // update navigation dots
+      for (var i = 0; i < 2; i++) {
+        var dot = document.getElementById('dot' + i);
+        if (i == page) {
+          dot.classList.add('navDotSelected');
+        } else {
+          dot.classList.remove('navDotSelected');
+        }
+      }
+    }
+
+    function prevPage() {
+      if (page > 0) {
+        page--;
+        // add these images to a div with id 'con
+        showPage();
+      }
+      else if (page == 0){
+      page= allFiles.length / 10 - 1;
+        showPage();
+      }
+    }
+
+    function nextPage() {
+      if (page < allFiles.length / 10 - 1) {
+        page++;
+        showPage();
+      }
+      else if (page == allFiles.length / 10 - 1) {
+      page=0;
+        showPage();
+      }
+    }
+
+    // Show the first page when the script is first run
+    showPage();
+  </script>
+  -->
+
+  <div class="content">
+    <h2 style="text-align:center;">Abstract</h2>
+    <p>Precise and rapid delineation of sharp boundaries and robust semantics is essential for numerous downstream robotic tasks, such as robot grasping and manipulation,
+       real-time semantic mapping, and online sensor calibration performed on edge computing units. Although boundary detection and semantic segmentation are 
+       complementary tasks, most studies focus on lightweight models for semantic segmentation but overlook the critical role of boundary detection. In this work, 
+       we introduce Mobile-Seed, a lightweight, dual-task framework tailored for simultaneous semantic segmentation and boundary detection.  Our framework features a
+      two-stream encoder, an active fusion decoder (AFD) and a dual-task regularization approach. The encoder is divided into two pathways: one captures category-aware 
+      semantic information, while the other discerns boundaries from multi-scale features. The AFD module dynamically adapts the fusion of semantic and boundary 
+      information by learning channel-wise relationships, allowing for precise weight assignment of each channel. Furthermore, we introduce a regularization loss to 
+      mitigate the conflicts between dual-task learning and deep diversity supervision. Compared to existing methods, the proposed Mobile-Seed offers a lightweight 
+      framework to simultaneously improve semantic segmentation performance and accurately locate object boundaries. Experiments on the Cityscapes val dataset 
+      have shown that Mobile-Seed achieves notable improvement over state-of-the-art (SOTA) baseline by 2.2 percentage points (pp) in mIoU and 4.2 pp in mF-score, 
+      while maintaining an online inference speed of 23.9 frames-per-second (FPS) with 1024x2048 resolution input on an RTX 2080Ti GPU. 
+      Additional experiments on CamVid and PASCAL Context datasets confirm our method's generalizability. </p>
+  </div>
+
+  <div class="content">
+    <h2>Introduction (The simplest video for understanding)</h2>
+    <video width="100%" controls autoplay control src="mobilesed/mobilesed.mp4" ></video>
+  </div>
+
+
+  <div class="content">
+    <h2>Semantic and Boundary Results</h2>
+    <h3>
+      <center>Semantic Segmentation</center>
+    </h3>
+    <img class="summary-img" src="./mobilesed/qualitative_result_full_cropped.png" style="width:100%;">
+    <a>
+     <!--
+      <strong>(a)</strong> Input RGB images and point clouds for registration. 
+      <strong>(b)</strong> Estimated correspondences from the baseline method I2P-Matr. <br>
+      <strong>(c-e)</strong> Estimated correspondences by nearest neighborhood (NN) matcher utilizing Diffusion (FreeReg-D) / Geometric (FreeReg-G) / Fused features (FreeReg).
+     -->
+    </a>
+    <br><br>
+
+    <h3>
+      <center>Semantic Boundary</center>
+    </h3>
+    <img class="summary-img" src="./mobilesed/qua_se_cropped.png" style="width:100%;">
+    <a>
+      <!--
+      <strong>(a)</strong> color image. 
+      <strong>(b)</strong> 
+      <strong>(c-e)</strong> Diffusion / Geometric / Fused Feature maps of the input RGB images and point clouds. 
+      <strong>(g)</strong> Estimated correspondences from FreeReg.
+      -->
+      </a>
+  </div>
+
+  <div class="content">
+    <h2>BibTex</h2>
+    <code> @article{liao2023mobilesed,<br>
+  &nbsp;&nbsp;title={Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots},<br>
+  &nbsp;&nbsp;author={Youqi Liao, Shuhao Kang, Jianping Li, Yang Liu, Yun Liu, Zhen Dong, Bisheng Yang, Xieyuanli Chen},<br>
+  &nbsp;&nbsp;journal={arXiv preprint},<br>
+  &nbsp;&nbsp;year={2023}<br>
+  } </code>
+  </div>
+  <div class="content" id="acknowledgements">
+    <p><strong>Acknowledgements</strong>:
+      We borrow this template from <a href="https://whu-usi3dv.github.io/FreeReg/">FreeReg</a>.
+    </p>
+  </div>
+</body>
+
+</html>

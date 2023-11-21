@@ -1,0 +1,6 @@
+@article{kang2023cofii2p,
+  title={CoFiI2P: Coarse-to-Fine Correspondences for Image-to-Point Cloud Registration},
+  author={Kang, Shuhao and Liao, Youqi and Li, Jianping and Liang, Fuxun and Li, Yuhao and Li, Fangning and Dong, Zhen and Yang, Bisheng},
+  journal={arXiv preprint arXiv:2309.14660},
+  year={2023}
+}
