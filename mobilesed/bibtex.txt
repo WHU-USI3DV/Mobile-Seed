@@ -1,6 +1,8 @@
-@article{kang2023cofii2p,
-  title={CoFiI2P: Coarse-to-Fine Correspondences for Image-to-Point Cloud Registration},
-  author={Kang, Shuhao and Liao, Youqi and Li, Jianping and Liang, Fuxun and Li, Yuhao and Li, Fangning and Dong, Zhen and Yang, Bisheng},
-  journal={arXiv preprint arXiv:2309.14660},
-  year={2023}
+@article{liao2023mobileseed,
+      title={Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots}, 
+      author={Youqi Liao and Shuhao Kang and Jianping Li and Yang Liu and Yun Liu and Zhen Dong and Bisheng Yang and Xieyuanli Chen},
+      year={2023},
+      eprint={2311.12651},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
 }
