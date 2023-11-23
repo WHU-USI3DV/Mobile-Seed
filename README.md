@@ -48,7 +48,7 @@ and PASCAL Context datasets confirm our method’s generalizability.
 - 2023-11-22:  [[Preprint paper]](https://arxiv.org/abs/2311.12651) is aviliable! 🎉
 
 ## 💡 Citation
-If you find this repo helpful, please give us a star~.Please consider citing FreeReg if this program benefits your project
+If you find this repo helpful, please give us a star~.Please consider citing Mobile-Seed if this program benefits your project
 ```
 @article{liao2023mobileseed,
   title={Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots},
