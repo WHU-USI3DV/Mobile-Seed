@@ -45,7 +45,8 @@ and PASCAL Context datasets confirm our method’s generalizability.
 
 ## 🆕 News
 - 2023-11-22: [[Project page]](https://whu-usi3dv.github.io/Mobile-Seed/) (with introduction video) is aviliable! 🎉
-- 2023-11-22:  [[Preprint paper]](https://arxiv.org/abs/2311.12651) is aviliable! 🎉
+- 2023-11-22:  [[Preprint paper]](https://arxiv.org/abs/2311.12651) is aviliable! 
+- 2023-11-26: We update the video in the project page with in-depth analysis of our Mobile-Seed. More qualitative results will be available soon!🎉 
 
 ## 💡 Citation
 If you find this repo helpful, please give us a star~.Please consider citing FreeReg if this program benefits your project
