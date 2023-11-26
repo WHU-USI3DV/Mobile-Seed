@@ -49,7 +49,7 @@ and PASCAL Context datasets confirm our method’s generalizability.
 - 2023-11-26: We update the video in the project page with in-depth analysis of our Mobile-Seed. More qualitative results will be available soon!🎉 
 
 ## 💡 Citation
-If you find this repo helpful, please give us a star~.Please consider citing FreeReg if this program benefits your project
+If you find this repo helpful, please give us a star~.Please consider citing Mobile-Seed if this program benefits your project
 ```
 @article{liao2023mobileseed,
   title={Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots},
