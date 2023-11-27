@@ -7,7 +7,7 @@ This is the official PyTorch implementation of the following publication:
 > **Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots**<br/>
 > [Youqi Liao](https://martin-liao.github.io/), [Shuhao Kang](https://scholar.google.com/citations?user=qB6B7lkAAAAJ&hl=zh-CN&oi=sra), [Jianping Li](https://jianping.xyz/), [Yang Liu](https://mruil.github.io/), [Yun Liu](https://yun-liu.github.io/), [Zhen Dong](https://dongzhenwhu.github.io/index.html), [Bisheng Yang](https://3s.whu.edu.cn/info/1025/1415.htm),[Xieyuanli Chen](https://xieyuanli-chen.com/),<br/>
 > *ArXiv 2023*<br/>
-> [**Paper**](https://arxiv.org/abs/2311.12651) | [**Project-page**](https://whu-usi3dv.github.io/Mobile-Seed/) | **Video**
+> [**Paper**](https://arxiv.org/abs/2311.12651) | [**Project-page**](https://whu-usi3dv.github.io/Mobile-Seed/) | [**Video**](https://youtu.be/roEAwFKP8Ow)
 
 
 ## 🔭 Introduction
@@ -44,9 +44,10 @@ and PASCAL Context datasets confirm our method’s generalizability.
 </p>
 
 ## 🆕 News
-- 2023-11-22: [[Project page]](https://whu-usi3dv.github.io/Mobile-Seed/) (with introduction video) is aviliable! 🎉
-- 2023-11-22:  [[Preprint paper]](https://arxiv.org/abs/2311.12651) is aviliable! 
-- 2023-11-26: We update the video in the project page with in-depth analysis of our Mobile-Seed. More qualitative results will be available soon!🎉 
+- 2023-11-22: [[Project page]](https://whu-usi3dv.github.io/Mobile-Seed/) (with introduction video) is aviliable!🎉  
+- 2023-11-22:  [[Preprint paper]](https://arxiv.org/abs/2311.12651) is aviliable!🎉  
+- 2023-11-26: We update the video in the project page with in-depth analysis of our Mobile-Seed. More qualitative results will be available soon!
+- 2023-11-27: Introduction [video](https://youtu.be/roEAwFKP8Ow) on YouTube is available now!
 
 ## 💡 Citation
 If you find this repo helpful, please give us a star~.Please consider citing Mobile-Seed if this program benefits your project
