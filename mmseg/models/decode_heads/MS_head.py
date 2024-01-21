@@ -114,7 +114,7 @@ class BoundaryHead(BaseDecodeHead):
         Returns:
             Tensor: Output segmentation map.
         """
-        bound_feat, bound_logit  =self.forward(seg_feat,(1024,2048),infer = False)
+        bound_feat, bound_logit  =self.forward(seg_feat,img_metas[0]['pad_shape'],infer = False)
         return bound_feat,bound_logit
     
     def losses(self, bound_logit, sebound_label):
