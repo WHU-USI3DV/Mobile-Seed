@@ -15,7 +15,7 @@ This is the official PyTorch implementation of the following publication:
 <strong>TL;DR: Mobile-Seed is an online framework for simultaneous semantic segmentation
 and boundary detection on compact robots.</strong>
 </p>
-<img src="utils/media/motivation.png" alt="Motivation" style="zoom:50%;">
+<img src="./motivation.png" alt="Motivation" style="zoom:50%;">
 
 <p align="justify">
 <strong>Abstract:</strong> Precise and rapid delineation of sharp boundaries
@@ -48,6 +48,81 @@ and PASCAL Context datasets confirm our method’s generalizability.
 - 2023-11-22:  [[Preprint paper]](https://arxiv.org/abs/2311.12651) is aviliable!🎉  
 - 2023-11-26: We update the video in the project page with in-depth analysis of our Mobile-Seed. More qualitative results will be available soon!
 - 2023-11-27: Introduction [video](https://youtu.be/roEAwFKP8Ow) on YouTube is available now!
+- 2024-01-20: Code and pre-trained models are available now !
+
+## 💻 Installation
+Our Mobile-Seed is built on [MMsegmentation](https://github.com/open-mmlab/mmsegmentation) 0.29.1. Please refer to the [installation](https://mmsegmentation.readthedocs.io/en/0.x/get_started.html#installation) page  for more details.
+A quick installation example: 
+```
+conda create --name mobileseed python=3.7 -y
+conda activate mobileseed
+pip install -r requirements.txt
+mim install mmengine
+mim install mmcv-full
+git clone https://github.com/WHU-USI3DV/Mobile-Seed.git
+cd Mobile-Seed
+pip install -v -e .
+```
+
+## 🚅 Usage
+### Evaluation
+**NOTE: data preprocssing is not necessary for evaluation.**
+We provide pre-trained models for Cityscapes, CamVid and PASCAL Context datasets. Please download the weights from [onedrive](https://whueducn-my.sharepoint.com/:f:/g/personal/martin_liao_whu_edu_cn/EoHdpcPhhUJIkKpKUCKRdqIBMTjgvR1lh2nNzS_WeGKCaw?e=k7q3yR) or [Baidu-disk](https://pan.baidu.com/s/1aJhLipP0UuMehInJdlGF7g) (code:MS24) and put them in a folder like ```ckpt/```. We will release our re-trained AFFormer-T weights on the Cityscapes, Camvid and PASCAL Context datasets for reference in the near future.
+Example: evaluate  ```Mobile-Seed``` on  ```Cityscapes```:
+```
+# Single-gpu testing
+bash tools/dist_test.sh ./configs/Mobile_Seed/MS_tiny_cityscapes.py /path/to/checkpoint_file.pth 1 --eval mIoU
+```
+
+- Mobile-Seed Performance:
+
+|      Dataset    | mIoU | mBIoU (3px) |FLOPs|
+|:----------------:|:------------------:|:----------:|:----:|
+| Cityscapes  | 78.4    | 43.3 | 31.6G |
+| CamVid  |   73.4 | 45.2     |  4.1G  |
+| PASCAL Context (60)   |  47.2 | 22.1     | 3.7G |
+| PASCAL Context (59)  |   43.0 | 16.2     | 3.7G |
+
+### Training
+Download weights of AFFormer pretrained on ImageNet-1K from [google-drive](https://drive.google.com/drive/folders/1Mru24qPdta9o8aLn1RwT8EapiQCih1Sw?usp=share_link) or [alidrive](https://www.aliyundrive.com/s/Ha2xMsG9ufy) and put them in a folder like ```ckpt/```. On the Cityscapes dataset, we trained the Mobile-Seed with an Intel Core i9-13900K CPU and a NVIDIA RTX 4090 GPU for 160K iterations and cost approximately 22 hours.
+Example: train ```Mobile-Seed``` on ```Cityscapes```:
+```
+# Single-gpu training
+bash tools/dist_train.sh ./configs/Mobile_Seed/MS_tiny_cityscapes.py
+
+# Multi-gpu training
+bash tools/dist_train.sh ./configs/Mobile_Seed/MS_tiny_cityscapes.py <GPU_NUM>
+```
+
+### Data preprocessing
+#### Cityscapes
+- Download the files gtFine_trainvaltest.zip, leftImg8bit_trainvaltest.zip and leftImg8bit_demoVideo.zip from the [Cityscapes website](https://www.cityscapes-dataset.com/) to data_orig/, and unzip them:
+```
+unzip data_orig/gtFine_trainvaltest.zip -d data_orig && rm data_orig/gtFine_trainvaltest.zip
+unzip data_orig/leftImg8bit_trainvaltest.zip -d data_orig && rm data_orig/leftImg8bit_trainvaltest.zip
+unzip data_orig/leftImg8bit_demoVideo.zip -d data_orig && rm data_orig/leftImg8bit_demoVideo.zip
+```
+- Generate .png training semantic boundary labels by running the following command:
+```
+# In Matlab Command Window
+run code/demoPreproc_gen_png_label.m
+```
+This will create instance-insensitive semantic boundary labels for network training in data_proc_nis/.
+
+#### CamVid & PASCAL Context
+We are re-organizing the codes in the Python language. Code will be available soon.
+
+## 🔦 Demo
+Here is a demo script to test a single image. More details refer to [MMSegmentation's Doc](https://mmsegmentation.readthedocs.io/en/latest/user_guides/visualization.html#data-and-results-visualization).
+```
+python demo/image_demo.py ${IMAGE_FILE} ${CONFIG_FILE} ${CHECKPOINT_FILE} ${SEG_FILE} \
+[--out_sebound ${SEBOUND_FILE}] [--out_bibound ${BIBOUND_FILE}] [--device ${DEVICE_NAME}] [--palette-thr ${PALETTE}] 
+```
+Example: visualize the ```Mobile-Seed``` on  ```Cityscapes```:
+```
+python demo/image_demo.py demo/demo.png configs/Mobile_Seed/MS_tiny_cityscapes.py \
+/path/to/checkpoint_file /path/to/outseg.png --device cuda:0 --palette cityscapes
+```
 
 ## 💡 Citation
 If you find this repo helpful, please give us a star~.Please consider citing Mobile-Seed if this program benefits your project
@@ -64,3 +139,6 @@ If you find this repo helpful, please give us a star~.Please consider citing Mob
 We sincerely thank the excellent projects:
 - [AFFormer](https://github.com/dongbo811/AFFormer) for head-free Transformer;
 - [SeaFormer](https://github.com/fudan-zvg/SeaFormer) for Squeeze-enhanced axial Transformer;
+- [FreeReg](https://github.com/WHU-USI3DV/FreeReg) for excellent template;
+- [DDS](https://github.com/yun-liu/DDS) for a novel view in deep diverse supervision;
+- [DFF](https://github.com/Lavender105/DFF) for dynamic feature fusion and Cityscapes data-preprocessing;
