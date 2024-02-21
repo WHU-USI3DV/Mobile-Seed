@@ -49,6 +49,7 @@ and PASCAL Context datasets confirm our method’s generalizability.
 - 2023-11-26: We update the video in the project page with in-depth analysis of our Mobile-Seed. More qualitative results will be available soon!
 - 2023-11-27: Introduction [video](https://youtu.be/roEAwFKP8Ow) on YouTube is available now!
 - 2024-01-20: Code and pre-trained models are available now !
+- 2024-02-21: Accepted by IEEE RAL'24 !
 
 ## 💻 Installation
 Our Mobile-Seed is built on [MMsegmentation](https://github.com/open-mmlab/mmsegmentation) 0.29.1. Please refer to the [installation](https://mmsegmentation.readthedocs.io/en/0.x/get_started.html#installation) page  for more details.
