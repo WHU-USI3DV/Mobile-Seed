@@ -12,13 +12,13 @@ function demoPreproc_gen_png_label()
 clc; clear; close all;
 
 %% Add library paths
-path = genpath('./lib/matlab');
-addpath(path);
+% path = genpath('./lib/path');
+% addpath(path);
 %% 
 
 %% Setup Directories and Suffixes
-dataRoot = '/home/martin/data/image_dataset/cityscapes/data_orig'; %'../data_orig';
-genDataRoot = '/home/martin/data/image_dataset/cityscapes/data_proc_nis_thin'; % debug
+dataRoot = '/home/data/image_dataset/cityscapes/data_orig'; %'../data_orig';
+genDataRoot = '/home/data/image_dataset/cityscapes/data_proc_nis'; % debug
 suffixImage = '_leftImg8bit.png';
 suffixColor = '_gtFine_color.png';
 suffixLabelIds = '_gtFine_labelIds.png';
@@ -30,7 +30,7 @@ suffixEdge_png = '_gtFine_edge.png';
 
 %% Setup Parameters
 numCls = 19;
-radius = 1;
+radius = 2;
 flagPngFile = true; % Output .png edge label files
 
 %% Setup Parallel Pool
@@ -66,7 +66,7 @@ for idxSet = 1:length(setList)
         % Generate and write data
         display(['Set: ' setName ', City: ' cityName])
         parfor_progress(length(fileList));
-        for idxFile = 1:length(fileList)
+        parfor idxFile = 1:length(fileList)
         	assert(strcmp(fileList(idxFile).name(end-length(suffixImage)+1:end), suffixImage), 'suffixImage mismatch!')
             fileName = fileList(idxFile).name(1:end-length(suffixImage));
             % Copy image
@@ -104,11 +104,11 @@ for idxSet = 1:length(setList)
                         labelEdge{idxCls, 1} = sparse(idxEdge); % create sparse matrix
                         labelEdge2(idxEdge) = labelEdge2(idxEdge) + 2^(idxCls-1);
                         if idxCls>=1 && idxCls<=8
-                            labelEdge_r(idxEdge) = labelEdge_r(idxEdge) + 2^(idxCls-1); % scale RGB value to [0,255]
+                            labelEdge_r(idxEdge) = labelEdge_r(idxEdge) + 2^(8 - idxCls); % scale RGB value to [0,255]
                         elseif idxCls>=9 && idxCls<=16
-                            labelEdge_g(idxEdge) = labelEdge_g(idxEdge) + 2^(idxCls-8-1); % scale RGB value to [0,255]
+                            labelEdge_g(idxEdge) = labelEdge_g(idxEdge) + 2^(8 + 8 - idxCls); % scale RGB value to [0,255]
                         else
-                            labelEdge_b(idxEdge) = labelEdge_b(idxEdge) + 2^(idxCls-8-8-1); % scale RGB value to [0,255]
+                            labelEdge_b(idxEdge) = labelEdge_b(idxEdge) + 2^(8 + 8 + 8 - idxCls); % scale RGB value to [0,255]
                         end
                     else
                         labelEdge{idxCls, 1} = sparse(false(height, width)); % sparse matrix for storing effectiveness
@@ -116,7 +116,7 @@ for idxSet = 1:length(setList)
                 end
 
                 labelEdge_png = cat(3, labelEdge_r, labelEdge_g, labelEdge_b);
-                labelEdge_png(labelEdge_png==0) = 255; % change black background to white
+                % labelEdge_png(labelEdge_png==0) = 255; % change black background to white
                 if(flagPngFile)
                     imwrite(labelEdge_png, [genDataRoot '/gtFine/' setName '/' cityName '/' fileName suffixEdge_png], 'png');
                 end

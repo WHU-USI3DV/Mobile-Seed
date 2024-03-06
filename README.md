@@ -5,8 +5,8 @@
 This is the official PyTorch implementation of the following publication:
 
 > **Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots**<br/>
-> [Youqi Liao](https://martin-liao.github.io/), [Shuhao Kang](https://scholar.google.com/citations?user=qB6B7lkAAAAJ&hl=zh-CN&oi=sra), [Jianping Li](https://jianping.xyz/), [Yang Liu](https://mruil.github.io/), [Yun Liu](https://yun-liu.github.io/), [Zhen Dong](https://dongzhenwhu.github.io/index.html), [Bisheng Yang](https://3s.whu.edu.cn/info/1025/1415.htm),[Xieyuanli Chen](https://xieyuanli-chen.com/),<br/>
-> *ArXiv 2023*<br/>
+> [Youqi Liao](https://martin-liao.github.io/), [Shuhao Kang](https://scholar.google.com/citations?user=qB6B7lkAAAAJ&hl=zh-CN&oi=sra), [Jianping Li](https://kafeiyin00.github.io/), [Yang Liu](https://mruil.github.io/), [Yun Liu](https://yun-liu.github.io/), [Zhen Dong](https://dongzhenwhu.github.io/index.html), [Bisheng Yang](https://3s.whu.edu.cn/info/1025/1415.htm),[Xieyuanli Chen](https://xieyuanli-chen.com/),<br/>
+> *IEEE RA-L 2024*<br/>
 > [**Paper**](https://arxiv.org/abs/2311.12651) | [**Project-page**](https://whu-usi3dv.github.io/Mobile-Seed/) | [**Video**](https://youtu.be/roEAwFKP8Ow)
 
 
@@ -50,6 +50,7 @@ and PASCAL Context datasets confirm our method’s generalizability.
 - 2023-11-27: Introduction [video](https://youtu.be/roEAwFKP8Ow) on YouTube is available now!
 - 2024-01-20: Code and pre-trained models are available now !
 - 2024-02-21: Accepted by IEEE RAL'24 !
+- 2024-03-06: Update the data pre-processing code for Camvid and PASCAL Context datasets!
 
 ## 💻 Installation
 Our Mobile-Seed is built on [MMsegmentation](https://github.com/open-mmlab/mmsegmentation) 0.29.1. Please refer to the [installation](https://mmsegmentation.readthedocs.io/en/0.x/get_started.html#installation) page  for more details.
@@ -103,15 +104,24 @@ unzip data_orig/gtFine_trainvaltest.zip -d data_orig && rm data_orig/gtFine_trai
 unzip data_orig/leftImg8bit_trainvaltest.zip -d data_orig && rm data_orig/leftImg8bit_trainvaltest.zip
 unzip data_orig/leftImg8bit_demoVideo.zip -d data_orig && rm data_orig/leftImg8bit_demoVideo.zip
 ```
+- create training semantic label:
+``
+python data_preprocess/cityscapes_preprocess/code/createTrainIdLabelImgs.py <data_path>
+``
 - Generate .png training semantic boundary labels by running the following command:
 ```
 # In Matlab Command Window
 run code/demoPreproc_gen_png_label.m
 ```
-This will create instance-insensitive semantic boundary labels for network training in data_proc_nis/.
+This will create **instance-insensitive** semantic boundary labels for network training in ``data_proc_nis/``.
 
 #### CamVid & PASCAL Context
-We are re-organizing the codes in the Python language. Code will be available soon.
+- semantic boundary label generation:
+``
+python data_preprocess/camvid_pascal_preprocess/label_generator.py <dataset> <data_path> 
+``
+We split the training and test set of Camvid according to [PIDNet](https://github.com/XuJiacong/PIDNet) to avoid same-area evaluation.
+
 
 ## 🔦 Demo
 Here is a demo script to test a single image. More details refer to [MMSegmentation's Doc](https://mmsegmentation.readthedocs.io/en/latest/user_guides/visualization.html#data-and-results-visualization).
@@ -131,7 +141,7 @@ If you find this repo helpful, please give us a star~.Please consider citing Mob
 @article{liao2023mobileseed,
   title={Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots},
   author={Youqi Liao and Shuhao Kang and Jianping Li and Yang Liu and Yun Liu and Zhen Dong and Bisheng Yang and Xieyuanli Chen},
-  journal={arXiv preprint arXiv:2311.12651},
+  journal={arXiv: 2311.12651},
   year={2023}
 }
 ```

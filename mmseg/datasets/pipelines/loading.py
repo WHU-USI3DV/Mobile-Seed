@@ -156,12 +156,12 @@ class LoadAnnotations(object):
                 gt_semantic_sebound = gt_semantic_sebound[...,::-1] # bgr -> rgb
                 gt_semantic_sebound = np.unpackbits(gt_semantic_sebound,axis = 2) # refer to DFF (https://github.com/Lavender105/DFF)
 
-            elif gt_semantic_sebound.dtype == np.uint16: # 16 * 4 = 64
+            elif gt_semantic_sebound.dtype == np.uint16: # 16 * 4 = 64, for PASCAL Context dataset
                 gt_semantic_sebound_mask = np.zeros((gt_semantic_sebound.shape[0],gt_semantic_sebound.shape[1],gt_semantic_sebound.shape[2] * 2),dtype = np.uint8)
                 for i in range(gt_semantic_sebound.shape[2]):
                     gt_semantic_sebound_mask[...,2 * i] = (gt_semantic_sebound[...,i] >> 8).astype(np.uint8)
                     gt_semantic_sebound_mask[...,2 * i + 1] = (gt_semantic_sebound[...,i] % (2 ** 8)).astype(np.uint8)
-                gt_semantic_sebound = gt_semantic_sebound_mask
+                gt_semantic_sebound = gt_semantic_sebound_mask.copy()
                 gt_semantic_sebound = np.unpackbits(gt_semantic_sebound,axis = 2)
             results['gt_semantic_sebound'] = gt_semantic_sebound
             results['seg_fields'].append('gt_semantic_sebound')
