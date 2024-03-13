@@ -716,10 +716,8 @@ class AFFormer(BaseModule):
     def forward(self, x):
 
         # x's shape : [B, C, H, W]
-        out = [x]
-        for s in self.stem:
-            x = s(x)
-            out.append(x)
+        out = []
+        x = self.stem(x)
         for idx in range(self.num_stages):
             att_inputs = self.patch_embed_stages[idx](x)
             x = self.mhca_stages[idx](att_inputs, idx)

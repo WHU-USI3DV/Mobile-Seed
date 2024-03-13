@@ -60,5 +60,5 @@ data = dict(
         data_root=data_root,
         img_dir='JPEGImages',
         ann_dir='SegmentationClassContext',
-        split='ImageSets/SegmentationContext/val_test.txt',
+        split='ImageSets/SegmentationContext/val.txt',
         pipeline=test_pipeline))

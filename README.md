@@ -7,7 +7,7 @@ This is the official PyTorch implementation of the following publication:
 > **Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots**<br/>
 > [Youqi Liao](https://martin-liao.github.io/), [Shuhao Kang](https://scholar.google.com/citations?user=qB6B7lkAAAAJ&hl=zh-CN&oi=sra), [Jianping Li](https://kafeiyin00.github.io/), [Yang Liu](https://mruil.github.io/), [Yun Liu](https://yun-liu.github.io/), [Zhen Dong](https://dongzhenwhu.github.io/index.html), [Bisheng Yang](https://3s.whu.edu.cn/info/1025/1415.htm),[Xieyuanli Chen](https://xieyuanli-chen.com/),<br/>
 > *IEEE RA-L 2024*<br/>
-> [**Paper**](https://arxiv.org/abs/2311.12651) | [**Project-page**](https://whu-usi3dv.github.io/Mobile-Seed/) | [**Video**](https://youtu.be/roEAwFKP8Ow)
+> [**Paper**](https://ieeexplore.ieee.org/document/10461032) | [**Arxiv**](https://arxiv.org/abs/2311.12651) | [**Project-page**](https://whu-usi3dv.github.io/Mobile-Seed/) | [**Video**](https://youtu.be/roEAwFKP8Ow)
 
 
 ## 🔭 Introduction
@@ -53,8 +53,9 @@ and PASCAL Context datasets confirm our method’s generalizability.
 - 2024-03-06: Update the data pre-processing code for Camvid and PASCAL Context datasets!
 
 ## 💻 Installation
-Our Mobile-Seed is built on [MMsegmentation](https://github.com/open-mmlab/mmsegmentation) 0.29.1. Please refer to the [installation](https://mmsegmentation.readthedocs.io/en/0.x/get_started.html#installation) page  for more details.
-A quick installation example: 
+Our Mobile-Seed is built on [MMsegmentation](https://github.com/open-mmlab/mmsegmentation) 0.29.1. Please refer to the [installation](https://mmsegmentation.readthedocs.io/en/0.x/get_started.html#installation) page  for more details. We provide a Docker image on [onedrive](https://whueducn-my.sharepoint.com/:f:/g/personal/martin_liao_whu_edu_cn/EgILxvqMh0VMs_882fKK9FkBnzFYnwtGR-JYe52yg4aBBg?e=mJvkuV) and [baidudisk](https://pan.baidu.com/s/1rOobDYvf-cgqOC5WWSRnzg)(code: djry) for quick start.
+
+If you want to building from source, here is a quick installation example : 
 ```
 conda create --name mobileseed python=3.7 -y
 conda activate mobileseed
@@ -69,7 +70,8 @@ pip install -v -e .
 ## 🚅 Usage
 ### Evaluation
 **NOTE: data preprocssing is not necessary for evaluation.**
-We provide pre-trained models for Cityscapes, CamVid and PASCAL Context datasets. Please download the weights from [onedrive](https://whueducn-my.sharepoint.com/:f:/g/personal/martin_liao_whu_edu_cn/EoHdpcPhhUJIkKpKUCKRdqIBMTjgvR1lh2nNzS_WeGKCaw?e=k7q3yR) or [Baidu-disk](https://pan.baidu.com/s/1aJhLipP0UuMehInJdlGF7g) (code:MS24) and put them in a folder like ```ckpt/```. We will release our re-trained AFFormer-T weights on the Cityscapes, Camvid and PASCAL Context datasets for reference in the near future.
+We provide pre-trained models for Cityscapes, CamVid and PASCAL Context datasets. Please download the weights of Mobile-Seed from [onedrive](https://whueducn-my.sharepoint.com/:f:/g/personal/martin_liao_whu_edu_cn/EoHdpcPhhUJIkKpKUCKRdqIBMTjgvR1lh2nNzS_WeGKCaw?e=k7q3yR) or [Baidu-disk](https://pan.baidu.com/s/1aJhLipP0UuMehInJdlGF7g)(code:MS24)  and put them in a folder like ```ckpt/```. We also provide our pre-trained weights of baseline method AFFormer on [onedrive](https://whueducn-my.sharepoint.com/:f:/g/personal/martin_liao_whu_edu_cn/EuahAybmjOBNhuj-ea9cBk4Bd0izwM3WTHJ28Vou-HcDNQ?e=X3ATMD)  and [baidudisk](https://pan.baidu.com/s/1ygCvEtqt9_NONJcvl7R4zg?pwd=zesm)(code: zesm) for fair comparison. 
+
 Example: evaluate  ```Mobile-Seed``` on  ```Cityscapes```:
 ```
 # Single-gpu testing
@@ -98,6 +100,9 @@ bash tools/dist_train.sh ./configs/Mobile_Seed/MS_tiny_cityscapes.py <GPU_NUM>
 
 ### Data preprocessing
 #### Cityscapes
+We provide processed Cityscapes data on [onedrive](https://whueducn-my.sharepoint.com/:f:/g/personal/martin_liao_whu_edu_cn/EjklDmgVOitPrhuAwy6h6EkBPkyTvnlCkTN0BdjPIIc6xA?e=1i6D4Z) and [baidudisk](https://pan.baidu.com/s/1GXsWgsHGcgIIoA8FahUlpQ?pwd=5n7t)(code: 5n7t).
+If you want to process the data  from scratch, please refer to following steps:
+
 - Download the files gtFine_trainvaltest.zip, leftImg8bit_trainvaltest.zip and leftImg8bit_demoVideo.zip from the [Cityscapes website](https://www.cityscapes-dataset.com/) to data_orig/, and unzip them:
 ```
 unzip data_orig/gtFine_trainvaltest.zip -d data_orig && rm data_orig/gtFine_trainvaltest.zip
@@ -113,7 +118,7 @@ python data_preprocess/cityscapes_preprocess/code/createTrainIdLabelImgs.py <dat
 # In Matlab Command Window
 run code/demoPreproc_gen_png_label.m
 ```
-This will create **instance-insensitive** semantic boundary labels for network training in ``data_proc_nis/``.
+This will create **instance-insensitive** semantic boundary labels for network training in ``data_proc_nis/``. For the difference between **instance-insensitive** and **instance-sensitive**, please refer to the [SEAL](https://openaccess.thecvf.com/content_ECCV_2018/papers/Zhiding_Yu_SEAL_A_Framework_ECCV_2018_paper.pdf).
 
 #### CamVid & PASCAL Context
 - semantic boundary label generation:
@@ -136,13 +141,14 @@ python demo/image_demo.py demo/demo.png configs/Mobile_Seed/MS_tiny_cityscapes.p
 ```
 
 ## 💡 Citation
-If you find this repo helpful, please give us a star~.Please consider citing Mobile-Seed if this program benefits your project
+If you find this repo helpful, please give us a star~.Please consider citing Mobile-Seed if this program benefits your project.
 ```
-@article{liao2023mobileseed,
+@article{liao2024mobileseed,
   title={Mobile-Seed: Joint Semantic Segmentation and Boundary Detection for Mobile Robots},
   author={Youqi Liao and Shuhao Kang and Jianping Li and Yang Liu and Yun Liu and Zhen Dong and Bisheng Yang and Xieyuanli Chen},
-  journal={arXiv: 2311.12651},
-  year={2023}
+  journal={IEEE Robotics and Automation Letters},
+  year={2024},
+  doi={10.1109/LRA.2024.3373235}
 }
 ```
 
