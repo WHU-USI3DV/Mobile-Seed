@@ -156,7 +156,8 @@ def multi_gpu_test(model,
                    efficient_test=False,
                    pre_eval=False,
                    format_only=False,
-                   format_args={}):
+                   format_args={},
+                   biou_thrs = 0.0):
     """Test model with multiple gpus by progressive mode.
 
     This method tests model with multiple gpus and collects the results
@@ -231,7 +232,15 @@ def multi_gpu_test(model,
         if pre_eval:
             # TODO: adapt samples_per_gpu > 1.
             # only samples_per_gpu=1 valid now
-            result = dataset.pre_eval(result, indices=batch_indices)
+            result_seg = dataset.pre_eval(result, indices=batch_indices)
+            if  biou_thrs > 0:
+                result_sebound = dataset.pre_eval_sebound(result,indices = batch_indices,bound_th = biou_thrs,binary = False)
+                for i in range(len(result_seg)):
+                    result_seg[i].extend(result_sebound[i])
+            
+            results.extend(result_seg)
+        else:
+            results.extend(result)
 
         results.extend(result)
 

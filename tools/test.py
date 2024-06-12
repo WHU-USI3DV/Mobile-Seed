@@ -47,13 +47,13 @@ def parse_args():
         type=str,
         nargs='+',
         help='evaluation metrics, which depends on the dataset, e.g., "mIoU"'
-        ' for generic datasets, and "cityscapes" for Cityscapes,"BIoU" for boundary IoU on cityscapes dataset',
+        ' for generic datasets, and "cityscapes" for Cityscapes,"mBIoU" for boundary IoU and "mFscore" for F1-score on cityscapes dataset',
         default = "mIoU")
     parser.add_argument(
         '--biou_thrs',
         type=float,
         help='threshold to control the BIoU metric',
-        default = 0.0)
+        default = 3.0)
     parser.add_argument('--show', action='store_true', help='show results')
     parser.add_argument(
         '--show-dir', help='directory where painted images will be saved')
@@ -135,6 +135,11 @@ def main():
 
     if args.eval and args.format_only:
         raise ValueError('--eval and --format_only cannot be both specified')
+
+    if  "mBIoU" in args.eval:
+        assert args.biou_thrs > 0, "threshold value must be greater than 0"
+    else: # args.eval != "mBIoU":
+        args.biou_thrs = 0.0
 
     if args.out is not None and not args.out.endswith(('.pkl', '.pickle')):
         raise ValueError('The output file must be a pkl file.')
@@ -256,8 +261,8 @@ def main():
         mmcv.mkdir_or_exist(tmpdir)
     else:
         tmpdir = None
-    if args.eval != "BIoU":
-        args.biou_thrs = 0.0
+    # if args.eval != "BIoU":
+    #     args.biou_thrs = 0.0
 
     if not distributed:
         warnings.warn(
@@ -293,7 +298,8 @@ def main():
             False,
             pre_eval=args.eval is not None and not eval_on_format_results,
             format_only=args.format_only or eval_on_format_results,
-            format_args=eval_kwargs)
+            format_args=eval_kwargs,
+            biou_thrs = args.biou_thrs)
 
     rank, _ = get_dist_info()
     if rank == 0:

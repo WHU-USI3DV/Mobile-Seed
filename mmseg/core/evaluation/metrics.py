@@ -414,7 +414,7 @@ def total_area_to_metrics(total_area_intersect,
             ret_metrics['Fscore'] = f_value
             ret_metrics['Precision'] = precision
             ret_metrics['Recall'] = recall
-        elif metric == 'BIoU':
+        elif metric == 'mBIoU':
             iou = total_area_intersect / total_area_union
             # acc = float(total_area_intersect) / (float(total_area_label) + 1)
             ret_metrics['BIoU'] = iou
