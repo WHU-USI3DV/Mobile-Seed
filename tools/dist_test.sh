@@ -17,5 +17,5 @@ python -m torch.distributed.launch \
     $(dirname "$0")/test.py \
     $CONFIG \
     $CHECKPOINT \
-    --launcher pytorch \
+    --launcher none \
     ${@:4}
