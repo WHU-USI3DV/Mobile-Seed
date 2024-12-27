@@ -100,7 +100,7 @@ bash tools/dist_train.sh ./configs/Mobile_Seed/MS_tiny_cityscapes.py <GPU_NUM>
 
 ### Data preprocessing
 #### Cityscapes
-We provide processed Cityscapes data on [onedrive](https://whueducn-my.sharepoint.com/:f:/g/personal/martin_liao_whu_edu_cn/EjklDmgVOitPrhuAwy6h6EkBPkyTvnlCkTN0BdjPIIc6xA?e=1i6D4Z) and [baidudisk](https://pan.baidu.com/s/1GXsWgsHGcgIIoA8FahUlpQ?pwd=5n7t)(code: 5n7t).
+We provide processed Cityscapes, Camvid and PASCAL data on [onedrive](https://whueducn-my.sharepoint.com/:f:/g/personal/martin_liao_whu_edu_cn/EjklDmgVOitPrhuAwy6h6EkBPkyTvnlCkTN0BdjPIIc6xA?e=1i6D4Z) and [baidudisk](https://pan.baidu.com/s/1DD1LkEaTFUtabbJtTh_8iw?pwd=tpe4)(code: tpe4).
 If you want to process the data  from scratch, please refer to following steps:
 
 - Download the files gtFine_trainvaltest.zip, leftImg8bit_trainvaltest.zip and leftImg8bit_demoVideo.zip from the [Cityscapes website](https://www.cityscapes-dataset.com/) to data_orig/, and unzip them:
